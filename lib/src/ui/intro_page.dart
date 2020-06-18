@@ -2,36 +2,41 @@ import 'package:flutter/material.dart';
 import 'package:introduction_screen/src/model/page_view_model.dart';
 import 'package:introduction_screen/src/ui/intro_content.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
   final PageViewModel page;
-
   const IntroPage({Key key, @required this.page}) : super(key: key);
 
   @override
+  _IntroPageState createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> with AutomaticKeepAliveClientMixin<IntroPage> {
+  
+  @override
   Widget build(BuildContext context) {
     return Container(
-      color: page.decoration.pageColor,
-      decoration: page.decoration.boxDecoration,
+      color: widget.page.decoration.pageColor,
+      decoration: widget.page.decoration.boxDecoration,
       child: SafeArea(
         top: false,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (page.image != null)
+            if (widget.page.image != null)
               Expanded(
-                flex: page.decoration.imageFlex,
+                flex: widget.page.decoration.imageFlex,
                 child: Padding(
-                  padding: page.decoration.imagePadding,
-                  child: page.image,
+                  padding: widget.page.decoration.imagePadding,
+                  child: widget.page.image,
                 ),
               ),
             Expanded(
-              flex: page.decoration.bodyFlex,
+              flex: widget.page.decoration.bodyFlex,
               child: Padding(
                 padding: const EdgeInsets.only(bottom: 70.0),
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
-                  child: IntroContent(page: page),
+                  child: IntroContent(page: widget.page),
                 ),
               ),
             ),
@@ -40,4 +45,7 @@ class IntroPage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
